@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hawely/Features/HomeScreen/home_screen.dart';
+import 'package:hawely/apptheme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,6 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: Apptheme.lightTheme,
+      home: HomeScreen(),
     );
   }
 }
