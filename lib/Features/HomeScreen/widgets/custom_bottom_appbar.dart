@@ -26,7 +26,9 @@ class CustomBottomAppbar extends StatelessWidget {
               size: 40,
               color: Apptheme.white,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/');
+            },
           ),
           IconButton(
             icon: Icon(
@@ -34,7 +36,9 @@ class CustomBottomAppbar extends StatelessWidget {
               size: 40,
               color: Apptheme.white,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/settings');
+            },
           ),
         ],
       ),

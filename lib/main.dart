@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hawely/Features/HomeScreen/home_screen.dart';
+import 'package:hawely/Features/SettingsScreen/settings_screen.dart';
 import 'package:hawely/apptheme.dart';
 
 void main() {
@@ -15,7 +16,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: Apptheme.lightTheme,
-      home: HomeScreen(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomeScreen(),
+        '/settings': (context) => const SettingsScreen(),
+      },
     );
   }
 }
