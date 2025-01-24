@@ -1,26 +1,42 @@
 import 'package:flutter/material.dart';
-import 'package:hawely/Features/HomeScreen/home_screen.dart';
-import 'package:hawely/Features/SettingsScreen/settings_screen.dart';
+import 'package:hawely/Features/AccountData/account_data.dart';
+import 'package:hawely/Features/CurrencyScreen/currency_screen.dart';
+import 'package:hawely/Features/HomeScreen/view/home_screen.dart';
+import 'package:hawely/Features/SettingsScreen/view/settings_screen.dart';
 import 'package:hawely/apptheme.dart';
+import 'package:hawely/core/services/service_locator.dart';
+import 'package:provider/provider.dart';
+import 'package:hawely/Features/HomeScreen/viewmodel/currency_viewmodel.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+Future<void> main() async {
+  setupServiceLocator();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: Apptheme.lightTheme,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => const HomeScreen(),
-        '/settings': (context) => const SettingsScreen(),
-      },
+    return ChangeNotifierProvider(
+      create: (_) => serviceLocator<CurrencyViewmodel>(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: Apptheme.lightTheme,
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const HomeScreen(),
+          '/currency': (context) => CurrencyScreen(),
+          '/accountdata': (context) => const AccountDetailsScreen(),
+          '/settings': (context) => const SettingsScreen(),
+        },
+      ),
     );
   }
 }

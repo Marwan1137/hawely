@@ -9,7 +9,7 @@ class CustomBottomAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
+      height: 100,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Apptheme.blackwithblue,
@@ -23,7 +23,7 @@ class CustomBottomAppbar extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.currency_exchange_outlined,
-              size: 40,
+              size: 30,
               color: Apptheme.white,
             ),
             onPressed: () {
@@ -33,11 +33,21 @@ class CustomBottomAppbar extends StatelessWidget {
           IconButton(
             icon: Icon(
               Icons.settings,
-              size: 40,
+              size: 30,
               color: Apptheme.white,
             ),
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/settings');
+            },
+          ),
+          IconButton(
+            icon: Icon(
+              Icons.account_circle,
+              size: 30,
+              color: Apptheme.white,
+            ),
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, '/accountdata');
             },
           ),
         ],

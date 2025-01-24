@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hawely/Features/HomeScreen/widgets/custom_appbar.dart';
-import 'package:hawely/Features/HomeScreen/widgets/custom_bottom_appbar.dart';
+import 'package:hawely/widgets/custom_appbar.dart';
+import 'package:hawely/widgets/custom_bottom_appbar.dart';
 import 'package:hawely/apptheme.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class CurrencyScreen extends StatelessWidget {
+  const CurrencyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SettingsScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomAppbar(),
       body: Center(
         child: Text(
-          'Settings Screen',
+          'CurrencyScreen',
           style: TextStyle(color: Colors.black, fontSize: 20),
         ),
       ),

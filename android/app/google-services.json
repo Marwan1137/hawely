@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "851994364654",
+    "project_id": "currency-converter-9d207",
+    "storage_bucket": "currency-converter-9d207.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:851994364654:android:4e1c1b402abd3db3ba81ff",
+        "android_client_info": {
+          "package_name": "com.example.hawely"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBH_hODdv-InOuSb_Y2yTXK37-XsNf2H2Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

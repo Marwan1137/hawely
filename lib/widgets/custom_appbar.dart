@@ -24,7 +24,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(32),
       ),
-      toolbarHeight: 120,
+      toolbarHeight: 140,
       title: Column(
         children: [
           Center(
