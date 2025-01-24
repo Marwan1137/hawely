@@ -109,48 +109,50 @@ class _HomeScreenState extends State<HomeScreen> {
 
           return Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: TextField(
-                        controller: _amountController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          hintText: 'Enter amount',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18),
-                          ),
-                          prefixIcon: const Icon(Icons.currency_exchange),
-                        ),
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 16),
-                    decoration: BoxDecoration(
-                      color: Apptheme.white,
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    child: Text(
-                      viewModel.getBaseCurrency().code,
-                      style:
-                          Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                color: Apptheme.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                    ),
-                  )
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       child: Padding(
+              //         padding: const EdgeInsets.all(12),
+              //         child: TextField(
+              //           controller: _amountController,
+              //           keyboardType: TextInputType.number,
+              //           decoration: InputDecoration(
+              //             hintText: 'Enter amount',
+              //             border: OutlineInputBorder(
+              //               borderRadius: BorderRadius.circular(18),
+              //             ),
+              //             prefixIcon: const Icon(Icons.currency_exchange),
+              //           ),
+              //           style: Theme.of(context).textTheme.headlineSmall,
+              //         ),
+              //       ),
+              //     ),
+              //     Container(
+              //       padding: const EdgeInsets.symmetric(
+              //           horizontal: 12, vertical: 16),
+              //       decoration: BoxDecoration(
+              //         color: Apptheme.white,
+              //         borderRadius: BorderRadius.circular(18),
+              //       ),
+              //       child: Text(
+              //         viewModel.getBaseCurrency().code,
+              //         style:
+              //             Theme.of(context).textTheme.headlineSmall?.copyWith(
+              //                   color: Apptheme.black,
+              //                   fontWeight: FontWeight.bold,
+              //                 ),
+              //       ),
+              //     )
+              //   ],
+              // ),
               Expanded(
                 child: CurrencyListView(
                   currencies: viewModel.selectedCurrencies,
                   baseCurrency: viewModel.getBaseCurrency(),
                   amount: viewModel.amount,
+                  onAmountChanged: (newAmount) =>
+                      viewModel.setAmount(newAmount),
                   onBaseSelected: (newBase) {
                     Provider.of<CurrencyViewmodel>(context, listen: false)
                         .setBaseCurrency(newBase);

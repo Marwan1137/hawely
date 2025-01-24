@@ -7,15 +7,9 @@ import 'package:hawely/apptheme.dart';
 import 'package:hawely/core/services/service_locator.dart';
 import 'package:provider/provider.dart';
 import 'package:hawely/Features/HomeScreen/viewmodel/currency_viewmodel.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 
-Future<void> main() async {
+void main() {
   setupServiceLocator();
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
   runApp(const MyApp());
 }
 

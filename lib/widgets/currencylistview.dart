@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hawely/Features/HomeScreen/model/currency_model.dart';
 import 'package:hawely/apptheme.dart';
 
-class CurrencyListView extends StatelessWidget {
+class CurrencyListView extends StatefulWidget {
   final List<CurrencyModel> currencies;
   final CurrencyModel baseCurrency;
   final double amount;
   final Function(String) onBaseSelected;
+  final Function(double) onAmountChanged;
 
   const CurrencyListView({
     super.key,
@@ -14,7 +16,48 @@ class CurrencyListView extends StatelessWidget {
     required this.baseCurrency,
     required this.amount,
     required this.onBaseSelected,
+    required this.onAmountChanged,
   });
+
+  @override
+  State<CurrencyListView> createState() => _CurrencyListViewState();
+}
+
+class _CurrencyListViewState extends State<CurrencyListView> {
+  late TextEditingController _amountController;
+  late FocusNode _amountFocusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _amountController =
+        TextEditingController(text: widget.amount.toStringAsFixed(2));
+    _amountFocusNode = FocusNode();
+    _amountFocusNode.addListener(_handleFocusChange);
+  }
+
+  @override
+  void didUpdateWidget(CurrencyListView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.amount != oldWidget.amount && !_amountFocusNode.hasFocus) {
+      _amountController.text = widget.amount.toStringAsFixed(2);
+    }
+  }
+
+  void _handleFocusChange() {
+    if (!_amountFocusNode.hasFocus) {
+      final currentValue = double.tryParse(_amountController.text) ?? 0.0;
+      widget.onAmountChanged(currentValue);
+      _amountController.text = currentValue.toStringAsFixed(2);
+    }
+  }
+
+  @override
+  void dispose() {
+    _amountController.dispose();
+    _amountFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +66,13 @@ class CurrencyListView extends StatelessWidget {
         const SizedBox(height: 16),
         Expanded(
           child: ListView.separated(
-            itemCount: currencies.length,
+            itemCount: widget.currencies.length,
             separatorBuilder: (context, index) =>
                 const Divider(height: 10, color: Colors.transparent),
             itemBuilder: (context, index) {
-              final currency = currencies[index];
-              final convertedAmount = amount * currency.rate;
-              final isBase = currency.code == baseCurrency.code;
+              final currency = widget.currencies[index];
+              final convertedAmount = widget.amount * currency.rate;
+              final isBase = currency.code == widget.baseCurrency.code;
 
               return _buildCurrencyCard(
                 context,
@@ -37,7 +80,7 @@ class CurrencyListView extends StatelessWidget {
                 amount: convertedAmount,
                 exchangeRate: currency.rate,
                 isBase: isBase,
-                onTap: () => onBaseSelected(currency.code),
+                onTap: () => widget.onBaseSelected(currency.code),
               );
             },
           ),
@@ -69,14 +112,34 @@ class CurrencyListView extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         onTap: onTap,
         leading: _buildCurrencySymbol(currencyCode),
-        title: Text(
-          _formatCurrency(currencyCode, amount),
-          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                fontWeight: FontWeight.w500,
+        title: isBase
+            ? TextField(
+                controller: _amountController,
+                focusNode: _amountFocusNode,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                ],
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Enter amount',
+                ),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                onChanged: (value) {
+                  final newAmount = double.tryParse(value) ?? 0.0;
+                  widget.onAmountChanged(newAmount);
+                },
+              )
+            : Text(
+                _formatCurrency(currencyCode, amount),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
               ),
-        ),
         subtitle: Text(
-          "1 ${baseCurrency.code} = ${exchangeRate.toStringAsFixed(4)} $currencyCode",
+          "1 ${widget.baseCurrency.code} = ${exchangeRate.toStringAsFixed(4)} $currencyCode",
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Apptheme.black,
               ),

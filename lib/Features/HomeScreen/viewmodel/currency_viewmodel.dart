@@ -65,16 +65,66 @@ class CurrencyViewmodel extends ChangeNotifier {
     _selectedCurrencies = _selectedCurrencies.map((selected) {
       return latestRates.firstWhere(
         (rate) => rate.code == selected.code,
-        orElse: () => selected, // Fallback if currency removed from API
+        orElse: () => selected,
       );
     }).toList();
   }
 
   void setBaseCurrency(String newBase) {
     if (_baseCurrency != newBase) {
-      _baseCurrency = newBase; // Immediate update for UI feedback
+      // Convert amount to new base currency first
+      final newBaseRate = _allCurrencies
+          .firstWhere(
+            (c) => c.code == newBase,
+            orElse: () => CurrencyModel(code: newBase, rate: 1.0),
+          )
+          .rate;
+
+      _amount = _amount * newBaseRate;
+
+      // Then perform the base currency change
+      _updateRatesOptimistically(newBase);
+      _fetchAndUpdateRealRates(newBase);
+    }
+  }
+
+  void _updateRatesOptimistically(String newBase) {
+    final oldBaseRate = _allCurrencies
+        .firstWhere(
+          (c) => c.code == _baseCurrency,
+          orElse: () => CurrencyModel(code: _baseCurrency, rate: 1.0),
+        )
+        .rate;
+
+    final newBaseRate = _allCurrencies
+        .firstWhere(
+          (c) => c.code == newBase,
+          orElse: () => CurrencyModel(code: newBase, rate: 1.0),
+        )
+        .rate;
+
+    final conversionRate = oldBaseRate / newBaseRate;
+
+    _allCurrencies = _allCurrencies.map((c) {
+      return CurrencyModel(
+        code: c.code,
+        rate: c.rate * conversionRate,
+      );
+    }).toList();
+
+    _baseCurrency = newBase;
+    _updateSelectedCurrencies(_allCurrencies);
+    notifyListeners();
+  }
+
+  Future<void> _fetchAndUpdateRealRates(String newBase) async {
+    try {
+      final rates = await _apiService.fetchCurrencyRates(baseCurrency: newBase);
+      _allCurrencies = rates;
+      _updateSelectedCurrencies(rates);
       notifyListeners();
-      fetchCurrencies(newBase: newBase);
+    } catch (e) {
+      // Optional: Handle error or revert changes
     }
   }
 
