@@ -9,8 +9,10 @@ class Apptheme {
   static Color? bluecustom = Colors.blue[50];
   static Color? greycustom600 = Colors.grey[600];
   static Color? greycustom300 = Colors.grey[300];
+  static Color red = Colors.red;
+  static Color green = Colors.green;
 
   static final ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: Apptheme.white,
+    scaffoldBackgroundColor: Apptheme.black,
   );
 }

@@ -27,7 +27,7 @@ class CustomBottomAppbar extends StatelessWidget {
               color: Apptheme.white,
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/');
+              Navigator.pushReplacementNamed(context, '/home');
             },
           ),
           IconButton(
