@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
 import 'package:hawely/Features/Auth/view/sign_in_screen.dart';
 import 'package:hawely/Features/Auth/view/sign_up_screen.dart';
-import 'package:hawely/apptheme.dart';
-import 'package:hawely/widgets/custom_appbar.dart';
-import 'package:hawely/widgets/gradient_button.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
+import 'package:hawely/shared/widgets/custom_appbar.dart';
+import 'package:hawely/Features/Auth/view/components/gradient_button.dart';
 
 class AuthScreen extends StatelessWidget {
   AuthScreen({super.key});

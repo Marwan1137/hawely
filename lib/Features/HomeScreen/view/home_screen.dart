@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hawely/widgets/currencylistview.dart';
-import 'package:hawely/widgets/custom_appbar.dart';
-import 'package:hawely/widgets/custom_bottom_appbar.dart';
-import 'package:hawely/apptheme.dart';
+import 'package:hawely/Features/HomeScreen/view/components/currencylistview.dart';
+import 'package:hawely/shared/widgets/custom_appbar.dart';
+import 'package:hawely/shared/widgets/custom_bottom_appbar.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
 import 'package:hawely/Features/HomeScreen/viewmodel/currency_viewmodel.dart';
 import 'package:provider/provider.dart';
 

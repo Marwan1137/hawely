@@ -40,7 +40,7 @@ class _GradientTextState extends State<GradientText>
 
   @override
   void dispose() {
-    _controller.dispose(); // Dispose the controller when not needed
+    _controller.dispose();
     super.dispose();
   }
 

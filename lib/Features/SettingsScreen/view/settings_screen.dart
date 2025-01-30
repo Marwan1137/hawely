@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:hawely/widgets/custom_appbar.dart';
-import 'package:hawely/widgets/custom_bottom_appbar.dart';
-import 'package:hawely/apptheme.dart';
+import 'package:hawely/shared/widgets/custom_appbar.dart';
+import 'package:hawely/shared/widgets/custom_bottom_appbar.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

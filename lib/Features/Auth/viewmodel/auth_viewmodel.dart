@@ -1,16 +1,42 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, avoid_print
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hawely/Features/Auth/models/repsoitories/auth_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hawely/apptheme.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
 
 class AuthViewModel extends ChangeNotifier {
   final AuthRepository _authRepository;
+  User? _currentUser;
+  DocumentSnapshot? _userData;
 
-  AuthViewModel(this._authRepository);
+  User? get currentUser => _currentUser;
+  DocumentSnapshot? get userData => _userData;
+
+  AuthViewModel(this._authRepository) {
+    // Add auth state listener
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      _currentUser = user;
+      if (user != null) {
+        _loadUserData(user.uid);
+      } else {
+        _userData = null;
+      }
+      notifyListeners();
+    });
+  }
+
+  Future<void> _loadUserData(String uid) async {
+    try {
+      _userData =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      notifyListeners();
+    } catch (e) {
+      print('Error loading user data: $e');
+    }
+  }
 
   bool _isLoading = false;
   String _errorMessage = '';

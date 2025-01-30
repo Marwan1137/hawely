@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hawely/Features/Auth/view/components/auth_background.dart';
 import 'package:hawely/Features/Auth/view/components/signup_form.dart';
 import 'package:hawely/Features/Auth/viewmodel/auth_viewmodel.dart';
-import 'package:hawely/apptheme.dart';
-import 'package:hawely/widgets/custom_appbar.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
+import 'package:hawely/shared/widgets/custom_appbar.dart';
 import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hawely/apptheme.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
 
 class CustomBottomAppbar extends StatelessWidget {
   const CustomBottomAppbar({super.key});

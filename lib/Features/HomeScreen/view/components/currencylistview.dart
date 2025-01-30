@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hawely/Features/HomeScreen/model/currency_model.dart';
-import 'package:hawely/apptheme.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
 
 class CurrencyListView extends StatefulWidget {
   final List<CurrencyModel> currencies;

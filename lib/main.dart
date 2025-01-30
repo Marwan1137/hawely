@@ -1,13 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:hawely/Features/AccountData/account_data.dart';
+import 'package:hawely/Features/AccountData/view/account_details_screen.dart';
+import 'package:hawely/Features/AccountData/viewmodel/account_viewmodel.dart';
 import 'package:hawely/Features/Auth/models/repsoitories/auth_repository.dart';
 import 'package:hawely/Features/Auth/viewmodel/auth_viewmodel.dart';
 import 'package:hawely/Features/HomeScreen/view/home_screen.dart';
 import 'package:hawely/Features/SettingsScreen/view/settings_screen.dart';
 import 'package:hawely/Features/Auth/view/authscreen.dart';
-import 'package:hawely/apptheme.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
 import 'package:hawely/core/services/service_locator.dart';
 import 'package:hawely/firebase_options.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,11 @@ void main() async {
         ),
         ChangeNotifierProvider<AuthViewModel>(
           create: (context) => AuthViewModel(context.read<AuthRepository>()),
+        ),
+        ChangeNotifierProxyProvider<AuthViewModel, AccountViewModel>(
+          create: (context) => AccountViewModel(context.read<AuthViewModel>()),
+          update: (context, authVM, accountVM) =>
+              accountVM!..updateAuthViewModel(authVM), // Now valid
         ),
       ],
       child: const MyApp(),

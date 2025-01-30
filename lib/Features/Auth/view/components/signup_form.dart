@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:hawely/Features/Auth/viewmodel/auth_viewmodel.dart';
-import 'package:hawely/apptheme.dart';
-import 'package:hawely/widgets/gradient_button.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
+import 'package:hawely/Features/Auth/view/components/gradient_button.dart';
 
 class SignupForm extends StatelessWidget {
   final AuthViewModel vm;

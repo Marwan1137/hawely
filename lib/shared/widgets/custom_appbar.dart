@@ -1,6 +1,6 @@
 // custom_app_bar.dart
 import 'package:flutter/material.dart';
-import 'package:hawely/apptheme.dart';
+import 'package:hawely/shared/widgets/apptheme.dart';
 import 'gradient_text.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
