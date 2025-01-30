@@ -1,29 +1,34 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart';
-import 'package:hawely/Features/Auth/view/sign_in_screen.dart';
-import 'package:hawely/Features/Auth/view/sign_up_screen.dart';
-import 'package:hawely/shared/widgets/apptheme.dart';
-import 'package:hawely/shared/widgets/custom_appbar.dart';
-import 'package:hawely/Features/Auth/view/components/gradient_button.dart';
+import 'package:flutter_swiper_null_safety/flutter_swiper_null_safety.dart'; // Swiper package for image carousel
+import 'package:hawely/Features/Auth/view/sign_in_screen.dart'; // Sign-in screen
+import 'package:hawely/Features/Auth/view/sign_up_screen.dart'; // Sign-up screen
+import 'package:hawely/shared/widgets/apptheme.dart'; // App theme and colors
+import 'package:hawely/shared/widgets/custom_appbar.dart'; // Custom app bar widget
+import 'package:hawely/Features/Auth/view/components/gradient_button.dart'; // Gradient button widget
 
+/* -------------------------------------------------------------------------- */
+/*                              AuthScreen Widget                            */
+/* -------------------------------------------------------------------------- */
 class AuthScreen extends StatelessWidget {
   AuthScreen({super.key});
 
   final List<String> images = [
-    'assets/currencyconverter1.jpg',
-    'assets/currencyconverter3.png',
-    'assets/currencyconverter2.png',
+    'assets/currencyconverter1.jpg', // Image 1 for swiper
+    'assets/currencyconverter3.png', // Image 2 for swiper
+    'assets/currencyconverter2.png', // Image 3 for swiper
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.transparent, // Transparent background
       body: Stack(
         children: [
-          // Swiper with rounded bottom edges
+          /* ------------------------------------------------------------------ */
+          /*                          Swiper for Images                         */
+          /* ------------------------------------------------------------------ */
           Positioned(
             top: 0, // Start from the top of the screen
             left: 0,
@@ -31,16 +36,16 @@ class AuthScreen extends StatelessWidget {
             bottom: 0,
             child: ClipRRect(
               borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(20),
+                bottom: Radius.circular(20), // Rounded bottom edges
               ),
               child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
                   return Image.asset(
-                    images[index],
-                    fit: BoxFit.cover,
+                    images[index], // Load image from assets
+                    fit: BoxFit.cover, // Cover the entire area
                   );
                 },
-                itemCount: images.length,
+                itemCount: images.length, // Number of images
                 autoplay: true, // Automatically transition between images
                 duration: 1000, // Transition duration in milliseconds
                 autoplayDelay: 3000, // Delay between transitions
@@ -48,7 +53,9 @@ class AuthScreen extends StatelessWidget {
             ),
           ),
 
-          // Shaded overlay
+          /* ------------------------------------------------------------------ */
+          /*                          Shaded Overlay                           */
+          /* ------------------------------------------------------------------ */
           Positioned(
             top: 0,
             left: 0,
@@ -57,80 +64,88 @@ class AuthScreen extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(20),
+                  bottom: Radius.circular(20), // Rounded bottom edges
                 ),
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withOpacity(0.6), // Dark overlay
-                    Colors.black.withOpacity(0.3), // Lighter overlay
+                    Colors.black.withOpacity(0.6), // Dark overlay at the top
+                    Colors.black
+                        .withOpacity(0.3), // Lighter overlay at the bottom
                   ],
                 ),
               ),
             ),
           ),
 
-          // AppBar
+          /* ------------------------------------------------------------------ */
+          /*                              AppBar                                */
+          /* ------------------------------------------------------------------ */
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: CustomAppBar(
-              title1: 'Welcome to Hawely',
-              title2: 'Currency Converter',
-              colors: [Apptheme.blue, Apptheme.darkred],
+              title1: 'Welcome to Hawely', // First title
+              title2: 'Currency Converter', // Second title
+              colors: [Apptheme.blue, Apptheme.darkred], // Gradient colors
             ),
           ),
 
-          // Buttons
+          /* ------------------------------------------------------------------ */
+          /*                              Buttons                               */
+          /* ------------------------------------------------------------------ */
           Positioned(
-            bottom: 70,
+            bottom: 70, // Position buttons 70 pixels from the bottom
             left: 50,
             right: 50,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Sign In Button
                 GradientButton(
                   text: 'Sign In',
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SignInScreen(),
+                        builder: (context) =>
+                            SignInScreen(), // Navigate to SignInScreen
                       ),
                     );
                   },
                   gradient: LinearGradient(
-                    colors: [Apptheme.blue, Apptheme.darkred],
+                    colors: [
+                      Apptheme.blue,
+                      Apptheme.darkred
+                    ], // Gradient colors
                   ),
-                  icon: Icon(null),
+                  icon: Icon(null), // No icon
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 20), // Spacing between buttons
+
+                // Sign Up Button
                 GradientButton(
                   text: 'Sign Up',
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SignUpScreen(),
+                        builder: (context) =>
+                            SignUpScreen(), // Navigate to SignUpScreen
                       ),
                     );
                   },
                   gradient: LinearGradient(
-                    colors: [Apptheme.blue, Apptheme.darkred],
+                    colors: [
+                      Apptheme.blue,
+                      Apptheme.darkred
+                    ], // Gradient colors
                   ),
-                  icon: Icon(null),
+                  icon: Icon(null), // No icon
                 ),
-                SizedBox(height: 20),
-                GradientButton(
-                  text: 'Continue as guest',
-                  onPressed: () {},
-                  gradient: LinearGradient(
-                    colors: [Apptheme.blue, Apptheme.darkred],
-                  ),
-                  icon: Icon(null),
-                ),
+                SizedBox(height: 20), // Spacing between buttons
               ],
             ),
           ),

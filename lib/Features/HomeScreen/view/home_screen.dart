@@ -1,3 +1,6 @@
+/* -------------------------------------------------------------------------- */
+/*                              HomeScreen Widget                            */
+/* -------------------------------------------------------------------------- */
 import 'package:flutter/material.dart';
 import 'package:hawely/Features/HomeScreen/view/components/currencylistview.dart';
 import 'package:hawely/shared/widgets/custom_appbar.dart';
@@ -14,13 +17,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _amountController =
+      TextEditingController(); // Controller for amount input
 
+  /* -------------------------------------------------------------------------- */
+  /*                              Initialization                               */
+  /* -------------------------------------------------------------------------- */
   @override
   void initState() {
     super.initState();
-    _amountController.addListener(_updateAmount);
+    _amountController.addListener(_updateAmount); // Listen to amount changes
     Future.delayed(Duration.zero, () {
+      // Fetch currencies and set default amount after build
       // ignore: use_build_context_synchronously
       Provider.of<CurrencyViewmodel>(context, listen: false)
         ..fetchCurrencies()
@@ -28,14 +36,22 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                          Update Amount in Viewmodel                       */
+  /* -------------------------------------------------------------------------- */
   void _updateAmount() {
-    final amount = double.tryParse(_amountController.text) ?? 0.0;
-    Provider.of<CurrencyViewmodel>(context, listen: false).setAmount(amount);
+    final amount = double.tryParse(_amountController.text) ??
+        0.0; // Parse amount from input
+    Provider.of<CurrencyViewmodel>(context, listen: false)
+        .setAmount(amount); // Update amount in viewmodel
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                          Show Currency Picker Dialog                      */
+  /* -------------------------------------------------------------------------- */
   void _showCurrencyPicker(BuildContext context) {
     final viewModel = Provider.of<CurrencyViewmodel>(context, listen: false);
-    String searchQuery = '';
+    String searchQuery = ''; // Search query for filtering currencies
 
     showDialog(
       context: context,
@@ -44,9 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, setState) {
             final filteredCurrencies =
                 viewModel.allCurrencies.where((currency) {
-              return currency.code
-                  .toLowerCase()
-                  .contains(searchQuery.toLowerCase());
+              return currency.code.toLowerCase().contains(searchQuery
+                  .toLowerCase()); // Filter currencies based on search query
             }).toList();
 
             return AlertDialog(
@@ -61,7 +76,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         hintText: 'Search currencies...',
                         prefixIcon: Icon(Icons.search),
                       ),
-                      onChanged: (value) => setState(() => searchQuery = value),
+                      onChanged: (value) => setState(
+                          () => searchQuery = value), // Update search query
                     ),
                     const SizedBox(height: 16),
                     Expanded(
@@ -71,8 +87,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: (context, index) => ListTile(
                           title: Text(filteredCurrencies[index].code),
                           onTap: () {
-                            viewModel.addCurrency(filteredCurrencies[index]);
-                            Navigator.pop(context);
+                            viewModel.addCurrency(filteredCurrencies[
+                                index]); // Add selected currency
+                            Navigator.pop(context); // Close dialog
                           },
                         ),
                       ),
@@ -87,6 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                              Build UI                                     */
+  /* -------------------------------------------------------------------------- */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,11 +120,13 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Consumer<CurrencyViewmodel>(
         builder: (context, viewModel, child) {
           if (viewModel.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator()); // Show loading indicator
           }
 
           if (viewModel.error != null) {
-            return Center(child: Text('Error: ${viewModel.error}'));
+            return Center(
+                child: Text('Error: ${viewModel.error}')); // Show error message
           }
 
           return Column(
@@ -126,10 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         baseCurrency: viewModel.getBaseCurrency(),
                         amount: viewModel.amount,
                         onAmountChanged: (newAmount) =>
-                            viewModel.setAmount(newAmount),
+                            viewModel.setAmount(newAmount), // Update amount
                         onBaseSelected: (newBase) {
                           Provider.of<CurrencyViewmodel>(context, listen: false)
-                              .setBaseCurrency(newBase);
+                              .setBaseCurrency(newBase); // Update base currency
                         },
                       ),
                     ),
@@ -152,16 +174,20 @@ class _HomeScreenState extends State<HomeScreen> {
               'Add Currency',
               style: TextStyle(fontSize: 20, color: Apptheme.black),
             ),
-            onPressed: () => _showCurrencyPicker(context),
+            onPressed: () =>
+                _showCurrencyPicker(context), // Show currency picker
           ),
         ],
       ),
     );
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                              Cleanup                                      */
+  /* -------------------------------------------------------------------------- */
   @override
   void dispose() {
-    _amountController.dispose();
+    _amountController.dispose(); // Dispose the controller
     super.dispose();
   }
 }

@@ -1,13 +1,16 @@
 // ignore_for_file: library_private_types_in_public_api, use_build_context_synchronously, deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:hawely/Features/Auth/view/components/auth_background.dart';
-import 'package:hawely/Features/Auth/view/components/signup_form.dart';
-import 'package:hawely/Features/Auth/viewmodel/auth_viewmodel.dart';
-import 'package:hawely/shared/widgets/apptheme.dart';
-import 'package:hawely/shared/widgets/custom_appbar.dart';
-import 'package:provider/provider.dart';
+import 'package:hawely/Features/Auth/view/components/auth_background.dart'; // Background widget for auth screens
+import 'package:hawely/Features/Auth/view/components/signup_form.dart'; // Sign-up form widget
+import 'package:hawely/Features/Auth/viewmodel/auth_viewmodel.dart'; // Auth viewmodel for state management
+import 'package:hawely/shared/widgets/apptheme.dart'; // App theme and colors
+import 'package:hawely/shared/widgets/custom_appbar.dart'; // Custom app bar widget
+import 'package:provider/provider.dart'; // Provider package for state management
 
+/* -------------------------------------------------------------------------- */
+/*                            SignUpScreen Widget                            */
+/* -------------------------------------------------------------------------- */
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -16,67 +19,90 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final _firstNameController = TextEditingController();
-  final _lastNameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); // Key for form validation
+  final _firstNameController =
+      TextEditingController(); // Controller for first name input
+  final _lastNameController =
+      TextEditingController(); // Controller for last name input
+  final _emailController =
+      TextEditingController(); // Controller for email input
+  final _passwordController =
+      TextEditingController(); // Controller for password input
   final List<String> images = [
-    'assets/currencyconverter1.jpg',
-    'assets/currencyconverter3.png',
-    'assets/currencyconverter2.png',
+    'assets/currencyconverter1.jpg', // Image 1 for background
+    'assets/currencyconverter3.png', // Image 2 for background
+    'assets/currencyconverter2.png', // Image 3 for background
   ];
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<AuthViewModel>(context);
+    final viewModel =
+        Provider.of<AuthViewModel>(context); // Access AuthViewModel
+
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Colors.transparent, // Transparent background
       body: Stack(
         children: [
-          // Swiper with rounded bottom edges
+          /* ------------------------------------------------------------------ */
+          /*                          Auth Background                           */
+          /* ------------------------------------------------------------------ */
           const AuthBackground(images: [
-            'assets/currencyconverter1.jpg',
-            'assets/currencyconverter3.png',
-            'assets/currencyconverter2.png',
+            'assets/currencyconverter1.jpg', // Image 1 for background
+            'assets/currencyconverter3.png', // Image 2 for background
+            'assets/currencyconverter2.png', // Image 3 for background
           ]),
 
-          // AppBar
+          /* ------------------------------------------------------------------ */
+          /*                              AppBar                                */
+          /* ------------------------------------------------------------------ */
           Positioned(
             top: 0,
             left: 0,
             right: 0,
             child: CustomAppBar(
-              title1: 'Hawely',
-              title2: 'Currency Converter',
-              colors: [Apptheme.blue, Apptheme.darkred],
+              title1: 'Hawely', // First title
+              title2: 'Currency Converter', // Second title
+              colors: [Apptheme.blue, Apptheme.darkred], // Gradient colors
             ),
           ),
 
-          // Form positioned in the center
+          /* ------------------------------------------------------------------ */
+          /*                              Sign-Up Form                          */
+          /* ------------------------------------------------------------------ */
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.35,
+            top: MediaQuery.of(context).size.height *
+                0.35, // Position form at 35% of screen height
             left: 16,
             right: 16,
             child: Form(
-                key: _formKey,
-                child: SignupForm(
-                    vm: viewModel,
-                    emailController: _emailController,
-                    passwordController: _passwordController,
-                    formKey: _formKey,
-                    firstNameController: _firstNameController,
-                    lastNameController: _lastNameController)),
+              key: _formKey, // Form key for validation
+              child: SignupForm(
+                vm: viewModel, // Pass AuthViewModel to the form
+                emailController: _emailController, // Pass email controller
+                passwordController:
+                    _passwordController, // Pass password controller
+                formKey: _formKey, // Pass form key
+                firstNameController:
+                    _firstNameController, // Pass first name controller
+                lastNameController:
+                    _lastNameController, // Pass last name controller
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                              Cleanup                                      */
+  /* -------------------------------------------------------------------------- */
   @override
   void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
+    _firstNameController.dispose(); // Dispose first name controller
+    _lastNameController.dispose(); // Dispose last name controller
+    _emailController.dispose(); // Dispose email controller
+    _passwordController.dispose(); // Dispose password controller
     super.dispose();
   }
 }

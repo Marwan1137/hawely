@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
+/* -------------------------------------------------------------------------- */
+/*                          GradientButton Widget                            */
+/* -------------------------------------------------------------------------- */
 class GradientButton extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
-  final Gradient gradient;
-  final Icon? icon;
+  final String text; // Text to display on the button
+  final VoidCallback onPressed; // Callback when the button is pressed
+  final Gradient gradient; // Gradient for the button background
+  final Icon? icon; // Optional icon to display alongside the text
 
   const GradientButton({
     super.key,
@@ -17,25 +20,27 @@ class GradientButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(20),
-      onTap: onPressed,
+      borderRadius:
+          BorderRadius.circular(20), // Rounded corners for the tap area
+      onTap: onPressed, // Handle button press
       child: Container(
-        width: 350,
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        width: 350, // Fixed width for the button
+        padding: const EdgeInsets.symmetric(
+            horizontal: 30, vertical: 15), // Padding inside the button
         decoration: BoxDecoration(
-          gradient: gradient,
-          borderRadius: BorderRadius.circular(20),
-          // Rounded corners
+          gradient: gradient, // Apply gradient background
+          borderRadius:
+              BorderRadius.circular(20), // Rounded corners for the container
         ),
         child: Row(
           children: [
             Center(
               child: Text(
-                text,
-                style: TextStyle(
+                text, // Display button text
+                style: const TextStyle(
                   color: Colors.white, // Text color
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 18, // Text size
+                  fontWeight: FontWeight.bold, // Bold text
                 ),
               ),
             ),
