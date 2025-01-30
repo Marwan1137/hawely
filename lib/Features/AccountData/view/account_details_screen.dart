@@ -5,6 +5,7 @@ import 'package:hawely/Features/AccountData/viewmodel/account_viewmodel.dart';
 import 'package:hawely/Features/Auth/viewmodel/auth_viewmodel.dart';
 import 'package:hawely/shared/widgets/apptheme.dart';
 import 'package:hawely/shared/widgets/custom_appbar.dart';
+import 'package:hawely/shared/widgets/custom_bottom_appbar.dart';
 import 'package:provider/provider.dart';
 
 class AccountDetailsScreen extends StatefulWidget {
@@ -37,6 +38,7 @@ class _AccountDetailsScreenState extends State<AccountDetailsScreen> {
         title2: 'Account Details',
         colors: [Apptheme.blue, Apptheme.darkred],
       ),
+      bottomNavigationBar: CustomBottomAppbar(),
       body: Consumer<AccountViewModel>(
         builder: (context, viewModel, _) {
           if (viewModel.isLoading) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hawely/Features/Auth/viewmodel/auth_viewmodel.dart';
 import 'package:hawely/Features/HomeScreen/model/currency_model.dart';
 import 'package:hawely/core/services/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CurrencyViewmodel extends ChangeNotifier {
   final ApiService _apiService;
@@ -10,6 +12,8 @@ class CurrencyViewmodel extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
   double _amount = 1.0;
+  final SharedPreferences _prefs;
+  AuthViewModel _authVM;
 
   // Getters
   List<CurrencyModel> get allCurrencies => _allCurrencies;
@@ -18,15 +22,82 @@ class CurrencyViewmodel extends ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get error => _error;
   double get amount => _amount;
+  String get _userKey {
+    if (_authVM.currentUser == null) return 'default_user'; // Fallback
+    return 'user_${_authVM.currentUser!.uid}';
+  }
 
-  CurrencyViewmodel({required ApiService apiService})
-      : _apiService = apiService;
+  CurrencyViewmodel({
+    required ApiService apiService,
+    required SharedPreferences prefs,
+    required AuthViewModel authVM,
+  })  : _apiService = apiService,
+        _prefs = prefs,
+        _authVM = authVM {
+    _authVM.addListener(_onAuthChanged);
+    _onAuthChanged();
+  }
 
   void addCurrency(CurrencyModel currency) {
     if (!_selectedCurrencies.any((c) => c.code == currency.code)) {
       _selectedCurrencies.add(currency);
+      _saveUserData();
       notifyListeners();
     }
+  }
+
+  void _onAuthChanged() {
+    if (_authVM.currentUser != null) {
+      // Load user-specific data when logged in
+      _loadUserData(_authVM.currentUser!.uid);
+    } else {
+      // Clear data when logged out
+      _selectedCurrencies.clear();
+      _baseCurrency = 'USD';
+      _amount = 1.0;
+      notifyListeners();
+    }
+  }
+
+  void updateAuthVM(AuthViewModel newAuthVM) {
+    _authVM = newAuthVM;
+    // Optional: Add logic to reload data here
+    notifyListeners();
+  }
+
+  void _loadUserData(String userId) {
+    // Load selected currencies
+    final savedCurrencies = _prefs.getStringList('${_userKey}_currencies');
+    if (savedCurrencies != null) {
+      _selectedCurrencies = savedCurrencies.map((code) {
+        return _allCurrencies.firstWhere(
+          (c) => c.code == code,
+          orElse: () => CurrencyModel(code: code, rate: 1.0),
+        );
+      }).toList();
+    }
+
+    // Load base currency
+    _baseCurrency = _prefs.getString('${_userKey}_base') ?? 'USD';
+
+    // Load amount
+    _amount = _prefs.getDouble('${_userKey}_amount') ?? 1.0;
+
+    notifyListeners();
+  }
+
+  void _saveUserData() {
+    if (_authVM.currentUser == null) return;
+
+    // Save selected currencies
+    final currencyCodes = _selectedCurrencies.map((c) => c.code).toList();
+    _prefs.setStringList('${_userKey}_currencies', currencyCodes);
+
+    // Save base currency
+    _prefs.setString('${_userKey}_base', _baseCurrency);
+
+    // Save amount
+    _prefs.setDouble('${_userKey}_amount', _amount);
   }
 
   CurrencyModel getBaseCurrency() {
@@ -85,6 +156,7 @@ class CurrencyViewmodel extends ChangeNotifier {
       // Then perform the base currency change
       _updateRatesOptimistically(newBase);
       _fetchAndUpdateRealRates(newBase);
+      _saveUserData();
     }
   }
 
@@ -130,6 +202,7 @@ class CurrencyViewmodel extends ChangeNotifier {
 
   void setAmount(double newAmount) {
     _amount = newAmount;
+    _saveUserData();
     notifyListeners();
   }
 }

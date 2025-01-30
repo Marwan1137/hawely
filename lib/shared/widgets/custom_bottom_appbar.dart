@@ -30,16 +30,16 @@ class CustomBottomAppbar extends StatelessWidget {
               Navigator.pushReplacementNamed(context, '/home');
             },
           ),
-          IconButton(
-            icon: Icon(
-              Icons.settings,
-              size: 30,
-              color: Apptheme.white,
-            ),
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, '/settings');
-            },
-          ),
+          // IconButton(
+          //   icon: Icon(
+          //     Icons.settings,
+          //     size: 30,
+          //     color: Apptheme.white,
+          //   ),
+          //   onPressed: () {
+          //     Navigator.pushReplacementNamed(context, '/settings');
+          //   },
+          //),
           IconButton(
             icon: Icon(
               Icons.account_circle,
