@@ -67,21 +67,25 @@ Prerequisites
 
 ```bash           
 lib/
-├── core/                  # Core configurations
-│   ├── constants/         # App constants
-│   ├── network/           # HTTP client and API services
-│   └── service_locator/   # Dependency injection (Get It)
-├── features/              # App features
-│   ├── auth/              # Authentication (Firebase Auth)
-│   │   ├── models/        # Auth models
-│   │   ├── viewmodels/    # Auth business logic
-│   │   └── views/         # Auth UI
-│   ├── currency/          # Currency conversion feature
-│   │   ├── models/        # Currency models
-│   │   ├── viewmodels/    # Conversion logic
-│   │   └── views/         # Conversion UI
-│   └── history/           # Conversion history (Firestore)
-├── main.dart              # App entry point
+├── core/                  
+│   ├── constants/         
+│   ├── network/           
+│   └── service_locator/  
+├── features/              
+│   ├── auth/              
+│   │   ├── models/        
+│   │   ├── viewmodels/    
+│   │   └── views/        
+    ├── homescreen/             
+│   │   ├── models/        
+│   │   ├── viewmodels/    
+│   │   └── views/  
+│   ├── currency/         
+│   │   ├── models/       
+│   │   ├── viewmodels/    
+│   │   └── views/        
+│   └── history/          
+├── main.dart             
  ```
 
 
